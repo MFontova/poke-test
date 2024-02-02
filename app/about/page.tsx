@@ -1,5 +1,20 @@
-export default function About() {
+import { getAllPokemons } from "@/providers/allPokemonsProvider"
+
+type Pokemon = {
+  name: string;
+  url: string;
+}
+
+export default async function About() {
+  const pokemon = await getAllPokemons()
+
+  console.log(pokemon.data)
   return (
-    <h1>About PokeTest</h1>
+    <div>
+      <h1>About PokeTest</h1>
+      {
+        pokemon.data.results.map((poke : Pokemon) => <p key={poke.name}>{poke.name} - {poke.url} </p>)
+      }
+    </div>
   )
 }
