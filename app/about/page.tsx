@@ -1,4 +1,6 @@
-import { getAllPokemons } from "@/providers/allPokemonsProvider"
+import { PokemonCard } from "@/components/PokemonCard";
+import { getAllPokemons } from "@/providers/pokemonsProvider"
+import { Suspense } from "react";
 
 type Pokemon = {
   name: string;
@@ -12,9 +14,11 @@ export default async function About() {
   return (
     <div>
       <h1>About PokeTest</h1>
-      {
-        pokemon.data.results.map((poke : Pokemon) => <p key={poke.name}>{poke.name} - {poke.url} </p>)
-      }
+      <section className="grid grid-cols-3 m-auto gap-20 justify-around">
+        {
+          pokemon.map((poke : Pokemon) => <Suspense key={poke.name} fallback={<p>Loading each pokemon</p>}> <PokemonCard key={poke.name} url={poke.url} /> </Suspense>)
+        }
+      </section>
     </div>
   )
 }
